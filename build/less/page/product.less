@@ -1,0 +1,107 @@
+.product-menu{
+  padding-top:@header-height;
+  position: absolute;
+  top:0;
+  left: 0;
+  width: @product-width;
+  height: 100%;
+  overflow: scroll;
+  .item{
+    height: .9rem;
+    border-left:.08rem solid @color-242;
+    color: @color-104;
+    background: @color-242;
+    font-size:.3rem;
+    line-height:.89rem;
+    border-bottom: 1px solid @color-218;
+  }
+  .active{
+    border-left:.08rem solid @color-24;
+    color: @color-24;
+    font-size:.32rem;
+  }
+}
+.product-main{
+  .item{
+    height: 1.75rem;
+    position: relative;
+    background:linear-gradient(to right,rgb(230,230,230),rgb(242,242,242) 10%,rgb(242,242,242) 100%,);
+    padding-top:.33rem;
+    padding-bottom:.33rem;
+    padding-left:1.67rem;
+    .img{
+      position: absolute;
+      width: 1.09rem;
+      height: 1.09rem;
+      top:.33rem;
+      left: .4rem;
+      border-radius: 5px;
+    }
+  }
+  .number-select{
+    position: absolute;
+    right: .2rem;
+    bottom: .2rem;
+  }
+}
+.product-pb{
+  padding-bottom:1rem;
+}
+.product-footer{
+  height: 1rem;
+  padding-right:2.58rem;
+  .content{
+    padding-top:.16rem;
+    padding-bottom:.16rem;
+  }
+  .price{
+    padding-top:.18rem;
+    font-weight: bold;
+    .line{
+      line-height: 1;
+      border-bottom: 4px solid @color-24;
+      padding-bottom:.08rem;
+      height: .48rem;
+    }
+    border-bottom: 1px solid @color-24;
+    padding-bottom:.04rem;
+  }
+  .buy-btn{
+      width: 2.58rem;
+      height: 1rem;
+    line-height:1rem;
+  }
+}
+.shop-cart{
+  width: .68rem;
+  height: .68rem;
+  background-image: url(/images/page/shop-cart.png);
+  background-size: 100% 100%;
+  position: relative;
+  .num{
+    position: absolute;
+    height: .28rem;
+    font-size:.2rem;
+    min-width: .28rem;
+    line-height:.28rem;
+    text-align: center;
+    color: white;
+    background: rgb(247,65,2);
+    top:0;
+    left: .54rem;
+    border-radius: .28rem;
+  }
+}
+.product-list-window{
+   .content{
+     bottom:1rem;
+   }
+  .item{
+    height: 1rem;
+    padding-top:.26rem;
+    padding-bottom:.26rem;
+    line-height:.48rem;
+    font-size: .34rem;
+    color:@color-88;
+  }
+}

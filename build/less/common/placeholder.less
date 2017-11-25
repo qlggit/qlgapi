@@ -1,0 +1,20 @@
+.placeholder(@fs:100%,@color:#666){
+  &::-webkit-input-placeholder { /* WebKit browsers */
+    font-size: @fs;
+    color:     @color;
+  }
+  &:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    font-size: @fs;
+    color:     @color;
+    opacity:   1;
+  }
+  &::-moz-placeholder { /* Mozilla Firefox 19+ */
+    font-size: @fs;
+    color:     @color;
+    opacity:   1;
+  }
+  &:-ms-input-placeholder { /* Internet Explorer 10+ */
+    font-size: @fs;
+    color:@color;
+  }
+}

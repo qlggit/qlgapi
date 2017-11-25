@@ -1,0 +1,67 @@
+.head-type-menu{
+  .flex(row , center);
+  padding-top:.2rem;
+  padding-bottom:.18rem;
+  .item{
+    color:@color-24;
+    font-size:.3rem;
+    line-height:.3rem;
+    padding-bottom: .1rem;
+    border-radius: 1px;
+    border-bottom: 2px solid transparent;
+    margin-right:1rem;
+    &:last-child{
+      margin-right:0;
+    }
+  }
+  .active{
+    border-bottom: 2px solid @color-24;
+  }
+}
+.swiper-content{
+  padding-left:.24rem;
+  padding-right:.24rem;
+  padding-bottom: .4rem;
+  min-height: 2.58rem;
+}
+.swiper-slide{
+  width: 100%;
+  height: 3.08rem;
+  img{
+    width: 100%;
+  }
+}
+.club-item{
+  &-content{
+    padding-top:.3rem;
+    padding-left:.24rem;
+    padding-right:.24rem;
+    min-height: 4rem;
+  }
+  &-list{
+    padding-bottom:.38rem;
+    margin-bottom:.48rem;
+    border-bottom: 1px solid @color-194;
+    img{
+      width: 100%;
+      height: 4.22rem;
+      border-radius: 4px;
+    }
+    .title{
+      padding-top: .32rem;
+      color: @color-24;
+      font-size:.32rem;
+    }
+    .text{
+      font-size:.24rem;
+    }
+    .ico{
+      background-image: url(/images/location.png);
+      background-size: 100% 100%;
+      margin-right: .16rem;
+    }
+  }
+}
+//.swiper-content .swiper-container-horizontal>.swiper-pagination-bullets, .swiper-pagination-custom, .swiper-pagination-fraction {
+//  bottom:-50px;
+//}

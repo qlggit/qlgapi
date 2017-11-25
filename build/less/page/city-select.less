@@ -1,0 +1,92 @@
+.city-select{
+  &-head-title{
+    height: .26rem;
+    line-height:.26rem;
+    position: absolute;
+    left:.30rem;
+    top:.25rem;
+    > *{
+      display: inline-block;
+      vertical-align: bottom;
+    }
+  }
+  &-head-ico{
+    height: .22rem;
+  }
+  &-content{
+    z-index: 2000;
+    background: @color-233;
+    .search-input{
+      margin-left:.9rem;
+      margin-right:.4rem;
+    }
+    .text-content{
+      padding-left:.24rem;
+      padding-right:.5rem;
+    }
+    .text{
+      font-size:.26rem;
+      color: @color-24;
+      height: .6rem;
+      line-height:.59rem;
+      border-bottom: 1px solid @color-233;
+    }
+  }
+}
+.head-location{
+  border-bottom: @color-233;
+  padding-bottom:.3rem;
+  position: absolute;
+  top:.91rem;
+  left: 0;
+  width: 100%;
+}
+.list-main{
+  padding-top:2.71rem;
+  height: 100%;
+  overflow: scroll;
+}
+.search-item{
+  height: .4rem;
+  line-height: .38rem;
+  min-width: 1.06rem;
+  border: 1px solid @color-24;
+  color: @color-24;
+  font-size:.24rem;
+  border-radius: .4rem;
+  margin-right:.3rem;
+  display: inline-block;
+  text-align: center;
+  padding-left:.1rem;
+  padding-right:.1rem;
+  &.blank{
+    background: @color-24;
+    color: white;
+  }
+}
+.city-all-list{
+  border-top: 1px solid @color-218;
+  .title{
+    font-size:.24rem;
+    height: .5rem;
+    line-height:.49rem;
+    padding-left:.24rem;
+    border-bottom: 1px solid @color-233;
+  }
+}
+.spell-list{
+  position: fixed;
+  top:2.5rem;
+  right: .2rem;
+  width: .30rem;
+  .item{
+    font-size:.2rem;
+    color: @color-104;
+    height: .38rem;
+    line-height: .38rem;
+  }
+  .active{
+    color: @color-10;
+    font-size:.3rem;
+  }
+}
