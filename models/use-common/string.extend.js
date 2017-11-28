@@ -118,7 +118,7 @@ module.exports = function(obj){
             return useConfig.get('apiImgUrl') + url;
         };
         obj.addUrlParam = function(url , param){
-            if(typeof param == 'object'){
+            if(typeof param === 'object'){
                 param = obj.serialize(param);
             }
             url += /\?/.test(url)?'&':'?';

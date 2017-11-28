@@ -14,6 +14,7 @@ router.get('/add', function(req, res, next) {
         operatorDb.save({
             company:'admin',
             username:'admin',
+            nickname:'超级管理员',
             password:md5(md5('123456')),
             type:99,
             status:0,
@@ -85,25 +86,6 @@ router.get('/permission/init', function(req, res, next) {
         return false;
     }
     next();
-});
-router.get('/add', function(req, res, next) {
-    operatorDb.findOne({
-        type:99
-    } , function(a){
-        if(a.data){
-            return res.send('已有超级管理员');
-        }
-        operatorDb.save({
-            company:'admin',
-            username:'admin',
-            password:md5(md5('123456')),
-            type:99,
-            status:0,
-            createOperator:'auto',
-        } , function(data){
-            return res.useSend(data);
-        });
-    });
 });
 exports.router = router;
 exports.__path = '/admin';

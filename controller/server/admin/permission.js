@@ -16,6 +16,7 @@ router.post('/add', function(req, res, next) {
         code:req.body.code,
         menuCode:req.body.menuCode,
     } , function(a){
+        if(a.data === 0)useData.clearData();
         res.useSend(a);
     });
 });
@@ -76,4 +77,4 @@ router.post('/menuDelete', function(req, res, next) {
     });
 });
 exports.router = router;
-exports.__path = '/server/admin/permission/admin';
+exports.__path = '/server/admin/permission';

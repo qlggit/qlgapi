@@ -44,6 +44,7 @@ module.exports = {
         var _this = this;
         //URL对象管理
         global.useUrl = require('./url.js');
+        global.useWs = require('./use-ws');
 
         //初始化
         for(var i in this){

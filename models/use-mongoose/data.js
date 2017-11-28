@@ -34,6 +34,7 @@ module.exports = {
     operator:{
         company:String,
         username:String,
+        nickname:String,
         uid:String,
         password:String,
         type:Number,
@@ -69,5 +70,10 @@ module.exports = {
         createTime:Date,
         updateTime:Date,
         isAdmin:Boolean
+    },
+    channelConfig:{
+        company:String,
+        createTime:Date,
+        updateTime:Date,
     }
 };

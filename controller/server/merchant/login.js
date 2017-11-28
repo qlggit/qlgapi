@@ -6,20 +6,17 @@ var md5 = require('md5');
 router.post('/', function(req, res, next) {
     var body = req.body;
     operatorDb.findOne({
-        company:'admin',
         username:body.username,
     } , function(a){
         var data = a.data;
         var messageData = {
             type:'login',
             itemType:'login',
-            channel:'admin',
+            channel:data && data.company,
             data:body.username,
             ip:req.remoteAddress,
         };
-        console.log(a);
-        console.log(body);
-        if(!data){
+        if(!data || data.company === 'admin'){
             messageData.status = 'null';
             res.sendErrorMessage(0,'账号或密码错误');
         }
@@ -27,37 +24,7 @@ router.post('/', function(req, res, next) {
             messageData.status = 'fail';
             res.sendErrorMessage(0,'账号或密码错误');
         }
-        else if(messageData.status === 2){
-            messageData.status = 'freeze';
-            res.sendErrorMessage(0,'账号被锁定');
-        }
-        else {
-            messageData.status = 'success';
-            res.useSend(a);
-        }
-        useMessage.send(messageData);
-    });
-});
-//用户名直接登录  暂时不用
-router.post('/username', function(req, res, next) {
-    var body = req.body;
-    operatorDb.findOne({
-        company:'admin',
-        username:body.username,
-    } , function(a){
-        var data = a.data;
-        var messageData = {
-            type:'login',
-            itemType:'username',
-            channel:'admin',
-            data:body.username,
-            ip:req.remoteAddress,
-        };
-        if(!data){
-            messageData.status = 'null';
-            res.sendErrorMessage(0,'没有此账户');
-        }
-        else if(messageData.status === 2){
+        else if(data.status === 2){
             messageData.status = 'freeze';
             res.sendErrorMessage(0,'账号被锁定');
         }
@@ -69,59 +36,59 @@ router.post('/username', function(req, res, next) {
     });
 });
 //UID登录
-router.post('/uid', function(req, res, next) {
-    var body = req.body;
-    operatorDb.findOne({
-        company:'admin',
-        uid:body.uid,
-    } , function(a){
-        var data = a.data;
-        var messageData = {
-            type:'login',
-            itemType:'uid',
-            channel:'admin',
-            data:body.uid,
-            ip:req.remoteAddress,
-        };
-        if(!data){
-            messageData.status = 'null';
-            res.sendErrorMessage(0,'没有此账户');
-        }
-        else if(messageData.status === 2){
-            messageData.status = 'freeze';
-            res.sendErrorMessage(0,'账号被锁定');
-        }
-        else {
-            messageData.status = 'success';
+router.post('/qrcode', function(req, res, next) {
+    var uid = useWs.getUid(req.body.loginId);
+    if(uid){
+        operatorDb.findOne({
+            uid:uid,
+        },function(a){
+            var data = a.data;
+            var messageData = {
+                type:'login',
+                itemType:'qrcode',
+                channel:data && data.company,
+                data:uid,
+                content:req.body.loginId,
+                ip:req.remoteAddress,
+            };
+            if(data.status === 2){
+                messageData.status = 'freeze';
+                res.sendErrorMessage(0,'账号被锁定');
+            }else{
+                messageData.status = 'success';
+                res.useSend(a);
+            }
             res.useSend(a);
-        }
-        useMessage.send(messageData);
-    });
+        });
+    }else{
+        res.send({
+            message:'无效的登录'
+        });
+    }
 });
 //修改密码
 router.post('/update', function(req, res, next) {
     var body = req.body;
     operatorDb.findOne({
-        company:'admin',
         username:body.username,
     } , function(a){
         var data = a.data;
         var messageData = {
             type:'login',
             itemType:'update',
-            channel:'admin',
+            channel:data && data.company,
             data:body.username,
             ip:req.remoteAddress,
         };
-        if(!data){
+        if(!data || data.company === 'admin'){
             messageData.status = 'null';
             res.sendErrorMessage(0,'密码错误');
         }
-        else if(data.password !== md5(body.password)){
+        else if(!data.password || data.password !== md5(body.password)){
             messageData.status = 'fail';
             res.sendErrorMessage(0,'密码错误');
         }
-        else if(messageData.status === 2){
+        else if(data.status === 2){
             messageData.status = 'freeze';
             res.sendErrorMessage(0,'账号被锁定');
         }
@@ -261,4 +228,4 @@ router.post('/unbind', function(req, res, next) {
     });
 });
 exports.router = router;
-exports.__path = '/server/admin/login';
+exports.__path = '/server/merchant/login';

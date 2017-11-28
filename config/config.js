@@ -1,6 +1,7 @@
 //admin 1234yqs_admin
 module.exports = {
     "port":3002,
+    "wsPort":3004,
     uploadPath:'build/upload',
     alidayuAppId:'LTAI0ToowjXIqOJk',
     alidayuAppKey:'IBAoSwR0N6OYA16DfEnqosaJSkmNwN',

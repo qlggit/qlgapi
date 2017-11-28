@@ -3,7 +3,7 @@ var router = express.Router();
 router.get('/data', function(req, res, next) {
     useData.getUser({
         username:req.query.username,
-        company:'admin'
+        company:req.query.company,
     } , function(a){
         if(!a.data)return res.sendSuccess([]);
         var userInfo = a.data;
@@ -37,14 +37,11 @@ router.get('/data', function(req, res, next) {
         }).then(function(){
             return new Promise(function(rev , rej){
                 var searchData = {};
-                if(userInfo.type > 49)searchData.isAdmin = true;
-                else{
-                    searchData.type = 0;
-                }
+                searchData.type = 1;
                 useData.getMenuList(searchData,function(a){
                     sendData.menuList = a;
                     if(userInfo.type > 49){
-                        useData.getPermissionList({type:0},function(a){
+                        useData.getPermissionList({type:1},function(a){
                             sendData.permissionCode = a.map(function(b){return b.code});
                             rev();
                         })
@@ -86,4 +83,4 @@ router.post('/list' , function(req, res, next) {
 
 });
 exports.router = router;
-exports.__path = '/server/admin/permission';
+exports.__path = '/server/merchant/permission';
