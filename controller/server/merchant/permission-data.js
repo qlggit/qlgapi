@@ -7,6 +7,7 @@ router.get('/data', function(req, res, next) {
     } , function(a){
         if(!a.data)return res.sendSuccess([]);
         var userInfo = a.data;
+        console.log(userInfo);
         var roleId = userInfo.roleId;
         var sendData = {
             menuCode:[],
@@ -39,6 +40,7 @@ router.get('/data', function(req, res, next) {
                 var searchData = {};
                 searchData.type = 1;
                 useData.getMenuList(searchData,function(a){
+                    console.log(a);
                     sendData.menuList = a;
                     if(userInfo.type > 49){
                         useData.getPermissionList({type:1},function(a){

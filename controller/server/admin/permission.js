@@ -3,20 +3,21 @@ var router = express.Router();
 var permissionDb = useMongo().create('permission');
 var permissionMenuDb = useMongo().create('permissionMenu');
 router.get('/list', function(req, res, next) {
-    var searchData = {type:0};
+    var searchData = {};
     if(req.query.menuCode)searchData.menuCode = req.query.menuCode;
     permissionDb.find(searchData , function(a){
         res.useSend(a);
     });
 });
 router.post('/add', function(req, res, next) {
+    var type = req.body.type || 0;
     permissionDb.save({
-        type:0,
+        type:type,
         name:req.body.name,
         code:req.body.code,
         menuCode:req.body.menuCode,
     } , function(a){
-        if(a.data === 0)useData.clearData();
+        if(a.data === 0)useData.clearData(type,['permissionList']);
         res.useSend(a);
     });
 });
@@ -24,6 +25,7 @@ router.post('/update', function(req, res, next) {
     permissionDb.update({
         _id:req.body._id
     },{
+        type:req.body.type || 0,
         name:req.body.name,
         code:req.body.code,
         menuCode:req.body.menuCode,
@@ -39,7 +41,7 @@ router.post('/delete', function(req, res, next) {
     });
 });
 router.get('/menuList', function(req, res, next) {
-    var searchData = {type:0};
+    var searchData = {};
     if(req.query.parentCode)searchData.parentCode = req.query.parentCode;
     permissionMenuDb.find(searchData , function(a){
         res.useSend(a);
@@ -47,13 +49,15 @@ router.get('/menuList', function(req, res, next) {
 });
 
 router.post('/menuAdd', function(req, res, next) {
+    var type = req.body.type || 0;
     permissionMenuDb.save({
-        type:0,
+        type:type,
         name:req.body.name,
         code:req.body.code,
         parentCode:req.body.parentCode,
         isAdmin:true,
     } , function(a){
+        if(a.data === 0)useData.clearData(type,['menuList']);
         res.useSend(a);
     });
 });
@@ -62,6 +66,7 @@ router.post('/menuUpdate', function(req, res, next) {
     permissionMenuDb.update({
         _id:req.body._id
     },{
+        type:req.body.type || 0,
         name:req.body.name,
         code:req.body.code,
         parentCode:req.body.parentCode,

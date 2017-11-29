@@ -36,10 +36,11 @@ var handler = {
     },
     qrcodeLogin:function(data , ws){
         var oneHandler = handlerObject.qrcodeLogin;
+        ws.handlerType = 'qrcodeLogin';
+        //PC端打开二维码
         if(data.itemType === 'open'){
             var id = 'qrcodeLogin' + oneHandler.count++;
             ws.handlerId = id;
-            ws.handlerType = 'qrcodeLogin';
             handler.sendMessage({
                 code:0,
                 data:id,
@@ -47,21 +48,53 @@ var handler = {
                 itemType:'open'
             },ws);
         }else if(data.itemType === 'login'){
-            wssList.every(function(a){
+            //手机确认登录
+            if(wssList.every(function(a){
                 if(a.handlerType === 'qrcodeLogin' && a.handlerId === data.data){
+                    //找到PC
                     handler.sendMessage({
                         code:0,
                         type:'qrcodeLogin',
                         itemType:'login',
                         data:a.handlerId
                     },a);
+                    return false;
                 }
-            });
+                return true;
+            })){
+                //没找到有效的二维码
+                handler.sendMessage({
+                    code:1,
+                    type:'qrcodeLogin',
+                    itemType:'login',
+                    message:'登录超时！'
+                },ws);
+            }
         }else if(data.itemType === 'uid'){
+            //扫码二维码绑定uid
+            ws.userUid = data.uid;
+            ws.userLoginId = data.data;
             wssList.every(function(a){
                 if(a.handlerType === 'qrcodeLogin' && a.handlerId === data.data){
                     a.handlerUid = data.uid;
+                    return false;
                 }
+                return true;
+            });
+        }else if(data.itemType === 'complete'){
+            //pc登录反馈
+            wssList.every(function(a){
+                if(a.handlerType === 'qrcodeLogin' && a.userLoginId === data.data){
+                    //返回手机登录结果
+                    handler.sendMessage({
+                        code:data.code,
+                        type:'qrcodeLogin',
+                        itemType:'complete',
+                        message:data.message
+                    },a);
+                    return false;
+                }
+                return true;
             });
         }
     },
@@ -80,7 +113,9 @@ var handler = {
                         type:'qrcodeAdd',
                         itemType:'login'
                     },a);
+                    return false;
                 }
+                return true;
             });
         }
     },

@@ -51,14 +51,18 @@ router.post('/qrcode', function(req, res, next) {
                 content:req.body.loginId,
                 ip:req.remoteAddress,
             };
-            if(data.status === 2){
+            if(!data){
+                messageData.status = 'null';
+                res.sendErrorMessage(0,'未知的身份！');
+            }
+            else if(data.status === 2){
                 messageData.status = 'freeze';
                 res.sendErrorMessage(0,'账号被锁定');
             }else{
                 messageData.status = 'success';
                 res.useSend(a);
             }
-            res.useSend(a);
+            useMessage.send(messageData);
         });
     }else{
         res.send({

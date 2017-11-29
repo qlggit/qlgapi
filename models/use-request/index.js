@@ -2,7 +2,7 @@ var request =require('request');
 module.exports = {
     send:function(req, res , options ){
         var sendData;
-        if(typeof sendData !== 'object'){
+        if(typeof options.data !== 'object'){
           sendData = options.data;
         }else{
           sendData = Object.assign({} , options.data);
