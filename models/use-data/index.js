@@ -5,11 +5,10 @@ var channelConfigDb;
 var adminData = {};
 var otherData = {};
 module.exports = {
-    addMerchant:function(merchantId , username,call){
+    addMerchant:function(merchantId , username,merchantName,call){
         channelConfigDb.findOne({
             company:merchantId
         } , function(a){
-            console.log(a);
             if(a.data){
                 call({
                     code:1,
@@ -27,6 +26,7 @@ module.exports = {
                         username = username || ('admin-'+merchantId);
                         operatorDb.save({
                             company:merchantId,
+                            companyName:merchantName,
                             username:username,
                             nickname:'系统管理员',
                             password:md5(md5(pwd)),
@@ -106,11 +106,9 @@ module.exports = {
         }
 
     },
-    clearData:function(type , keys){
+    clearData:function(type , key){
         var autoData = type === 0?adminData:otherData;
-        for(var key in autoData){
-            if(!keys || keys.indexOf(key) > -1)delete autoData[key];
-        }
+        delete autoData[key];
     },
     init:function(){
         mongo = useMongo();

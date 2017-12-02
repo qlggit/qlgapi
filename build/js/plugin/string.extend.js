@@ -214,7 +214,7 @@ useCommon.serialize = function(data){
         var o = data[key];
         if(o != null){
            if(str)str+='&';
-           str += key + '=' + encodeURIComponent(o);
+           str += encodeURIComponent(key) + '=' + encodeURIComponent(o);
         }
     }
     return str;

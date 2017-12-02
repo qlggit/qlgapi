@@ -1,34 +1,28 @@
 <body>
-<video src=""></video>
+<input type="file" multiple="multiple" id="file">
 <script>
-    var video = document.querySelector('video');
-    var url = '/file/pipe';
-    var mediaSource = new MediaSource();
-    video.src = URL.createObjectURL(mediaSource);
-    var typeC = 'video/mp4; codecs="avc1.42E01E, mp4a.40.2"';
-    mediaSource.addEventListener('sourceopen',sourceOpen);
-    function sourceOpen(_){
-        console.log(this.readyState)
-        var mediaSource = this;
-        var sourceBuffer = mediaSource.addSourceBuffer(typeC);
-        console.log(sourceBuffer);
-        fetchAB(url,function(buf){
-            sourceBuffer.addEventListener('updateend', function(){
-                mediaSource.endOfStream();
-                video.play();
+    file.onchange = function(){
+        if(this.value){
+            var formData = new FormData;
+            [].slice.call(this.files).forEach(function(a){
+                formData.append('file' , a);
             });
-            sourceBuffer.appendBuffer(buf);
-        })
-    }
-    function fetchAB(url,cb){
-        var xhr = new XMLHttpRequest;
-        xhr.open('get' , url);
-        xhr.responseType = 'arraybuffer';
-        xhr.onload = function(){
-            console.log(xhr.response);
-            cb(xhr.response);
+            fetch("/file/uploads", {
+                method: "POST",
+                body: formData
+            }).then(function(Body){
+                return  Body.json();
+            }).then(function(b){
+                console.log(b);
+                b.forEach(function(a){
+                    if(a.filePath){
+                        var img = new Image;
+                        img.src = a.filePath;
+                        document.body.appendChild(img);
+                    }
+                })
+            })
         }
-        xhr.send()
     }
 </script>
 </body>

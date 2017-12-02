@@ -17,7 +17,7 @@ router.post('/add', function(req, res, next) {
         code:req.body.code,
         menuCode:req.body.menuCode,
     } , function(a){
-        if(a.data === 0)useData.clearData(type,['permissionList']);
+        if(a.code === 0)useData.clearData(type,'permissionList');
         res.useSend(a);
     });
 });
@@ -57,7 +57,7 @@ router.post('/menuAdd', function(req, res, next) {
         parentCode:req.body.parentCode,
         isAdmin:true,
     } , function(a){
-        if(a.data === 0)useData.clearData(type,['menuList']);
+        if(a.code === 0)useData.clearData(type,'menuList');
         res.useSend(a);
     });
 });

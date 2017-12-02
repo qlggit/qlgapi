@@ -1,6 +1,8 @@
 //admin 1234yqs_admin
 module.exports = {
     "redirect_uri":'http://47.100.20.78:3002',
+    //qiniuImgShowUrl:'http://ozczd6usr.bkt.clouddn.com/',
+    //qiniuImgShowPath:'image',
     "log4js":{
         "customBaseDir" :"../logs/h5api/",
         "customDefaultAtt" :{

@@ -9,6 +9,19 @@ module.exports = {
         }
         var method = options.method || 'GET';
         var headers = options.headers || {};
+        if(options.rongcloudToken){
+            var Nonce = Math.random();
+            var Timestamp  = Date.now();
+            //融云接口 token
+            //useConfig.get('rongcloudAppSecret');
+            headers['App-Key'] = useConfig.get('rongcloudAppKey');
+            headers['Nonce'] = Nonce;
+            headers['Timestamp'] = Timestamp ;
+            headers['Signature'] = useToken.rongcloud({
+                Timestamp:Timestamp,
+                Nonce:Nonce,
+            });
+        }
         var __ = {
             url:options.url,
             method:method.toUpperCase(),
@@ -48,6 +61,7 @@ module.exports = {
                 delete body.result;
               }
             }
+            console.log(response && response.statusCode);
             console.log(body);
             options.done(body || {code:1,msg:'系统异常'});
         });

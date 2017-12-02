@@ -33,6 +33,7 @@ module.exports = {
     },
     operator:{
         company:String,
+        companyName:String,
         username:String,
         nickname:String,
         uid:String,
@@ -75,5 +76,22 @@ module.exports = {
         company:String,
         createTime:Date,
         updateTime:Date,
-    }
+    },
+    merchantSettle:{
+        name:String,
+        tel:String,
+        address:String,
+        email:String,
+        remark:String,
+        status:Number,
+        createTime:Date,
+        updateTime:Date,
+    },
+    merchantCart:{
+        merchantId:String,
+        chatRoomId:String,
+        chatRoomName:String,
+        createTime:Date,
+        updateTime:Date,
+    },
 };

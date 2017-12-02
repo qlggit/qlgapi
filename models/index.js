@@ -7,6 +7,7 @@ module.exports = {
     validate:require('./use-validate'),
     data:require('./use-data'),
     permission:require('./use-permission'),
+    multer:require('./use-multer'),
     init:function(app , call){
         //捕获异步产生的异常
         app.use(this.domain);
@@ -41,6 +42,9 @@ module.exports = {
         global.useCache = require('./use-cache');
         global.useSms = require('./use-sms');
         global.useMessage = require('./use-message');
+
+        global.useBuffer = require('./buffer');
+        global.useToken = require('./use-token');
         var _this = this;
         //URL对象管理
         global.useUrl = require('./url.js');

@@ -10,9 +10,11 @@ function oneCache(key , expires , data){
 oneCache.prototype = {
     //刷新有效期
     expires:function(time){
-        if(!isNaN(time))this.expiresTime = Date.now() + time;
-        this.remove();
-        oneCache.doSort(this);
+        if(this.timeType){
+            if(!isNaN(time))this.expiresTime = Date.now() + time;
+            this.remove();
+            oneCache.doSort(this);
+        }
     },
     //变更有效期
     addTime:function(time){
@@ -22,26 +24,26 @@ oneCache.prototype = {
     },
     remove:function(){
         var index = caches[this.timeType].indexOf(this);
-        caches[this.timeType].splice(index , 1);
+        if(index > -1)caches[this.timeType].splice(index , 1);
     }
 };
 oneCache.doSort = function(data){
     var arr = caches[data.timeType] = caches[data.timeType] || [];
-     if(arr.every(function(a , i){
-         if(a.expiresTime > data.expiresTime){
-             arr.splice(i , 0 , data);
-             return false;
-         }
-         return true;
-         })){
-         arr.push(data);
-     }
+    if(!data.timeType || arr.every(function(a , i){
+            if(a.expiresTime > data.expiresTime){
+                arr.splice(i , 0 , data);
+                return false;
+            }
+            return true;
+        })){
+        arr.push(data);
+    }
 };
 //每5秒一次刷新缓存 有点误差 但是降低消耗
 setInterval(function(){
     for(var key in caches){
         var minIndex = -1;
-        caches[key].every(function(a , i){
+        if(key)caches[key].every(function(a , i){
             if(a.expiresTime > Date.now()){
                 return false;
             }
