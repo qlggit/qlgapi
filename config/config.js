@@ -17,6 +17,7 @@ module.exports = {
 
     qiniuImgShowUrl:'http://p0bkr7y6k.bkt.clouddn.com/',
     qiniuImgShowPath:'test',
+
     "redirect_uri":'http://h5.yqsapp.com',
     "log4js":{
         "customBaseDir" :"/logs/",
@@ -59,10 +60,18 @@ module.exports = {
         wxmember:{
             "appId":"wxd8524c4b547049f2",
             "appSecret":"4afb85b4c4c3505efe20bb379da7900d",
-            "redirect_uri":"http://47.100.20.78:3001",
+            "redirect_uri":"http://wx.yukew.com",
             "redirect_path":"/wechat/entrance",
             "token":"f4da9eb443e5595cb889a2ff8ec5de8f"
-        }
+        },
+        smspread:{
+            "appId":"wx00ba028fdf8fcc3d",
+            "appSecret":"36f7d0d186984bb529717f55c29c1e2c",
+        },
+        smmerchant:{
+            "appId":"wxa35e894678078820",
+            "appSecret":"906f0dd99084526ddea1387efcf133d0",
+        },
     }
 };
 

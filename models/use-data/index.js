@@ -99,7 +99,7 @@ module.exports = {
         if(autoData.permissionList){
             if(call)call(autoData.permissionList);
         }else{
-            permissionDb.find({type:0},function(a){
+            permissionDb.find(autoData,function(a){
                 autoData.permissionList = a.data;
                 if(call)call(autoData.permissionList);
             });

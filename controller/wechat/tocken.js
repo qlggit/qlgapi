@@ -8,7 +8,7 @@ router.get('/check/:channel', function(req, res, next) {
     var echostr = req.query.echostr;
     var wechatData = useConfig.get('wechatOptions')[channel];
     var token = wechatData.token;
-    if(signature == useCommon.SHA1([nonce , timestamp , token].sort(function(a , b){return a > b}).join(''))){
+    if(signature === useCommon.SHA1([nonce , timestamp , token].sort(function(a , b){return a > b}).join(''))){
         return res.useSend(echostr);
     }
     res.useSend('token error');
