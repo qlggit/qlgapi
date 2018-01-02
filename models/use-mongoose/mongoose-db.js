@@ -79,21 +79,23 @@ mongoose.prototype = {
     findAll:function(data,call,types){
         useLog.log('db find all', this.db.name);
         var _this = this;
-        var limit = types.limit || 20;
+        var limit = types.limit || types.pageSize || 20;
+        var skip = (types.skip || types.pageNum) - 1;
+        if(skip < 0)skip = 0;
         this.count(data , function(a){
             _this.find(data , function(b){
                 call({
                     code:0,
                     data:{
-                        content:b.data,
-                        totalElements:a.data,
-                        totalPages:Math.ceil(a.data / usePageSize)
+                        list:b.data,
+                        total:a.data,
+                        pages:Math.ceil(a.data / limit),
                     }
                 })
             },{},{
                 sort:types.sort || {},
                 limit:limit,
-                skip:limit * (types.skip || 0)
+                skip:limit * skip
             })
         })
     }

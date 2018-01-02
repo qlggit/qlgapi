@@ -1,24 +1,24 @@
 var express = require('express');
 var router = express.Router();
-router.get('/send', function(req, res, next) {
+router.post('/send', function(req, res, next) {
     useSms.send({
-        phone:req.query.phone || '13594035744',
+        phone:req.body.phone ,
         ip:req.remoteAddress,
-        channel:'pc',
-        sendType:'sendType',
-        userId:'userId',
+        channel:req.body.channel || 'channel',
+        sendType:req.body.sendType || 'sendType',
+        userId:req.body.userId,
     } , function(d){
        res.send(d);
     });
 });
-router.get('/check', function(req, res, next) {
+router.post('/check', function(req, res, next) {
     useSms.check({
-        phone:req.query.phone || '13594035744',
+        phone:req.body.phone,
         ip:req.remoteAddress,
-        channel:'pc',
-        sendType:'sendType',
-        userId:'userId',
-        code:req.query.code,
+        channel:req.body.channel || 'channel',
+        sendType:req.body.sendType || 'sendType',
+        userId:req.body.userId || 'userId',
+        code:req.body.sendCode,
     } , function(d){
        res.send(d);
     });

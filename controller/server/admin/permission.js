@@ -5,6 +5,7 @@ var permissionMenuDb = useMongo().create('permissionMenu');
 router.get('/list', function(req, res, next) {
     var searchData = {};
     if(req.query.menuCode)searchData.menuCode = req.query.menuCode;
+    if(req.query.name)searchData.name = {$regex:new RegExp('.*'+req.query.name+'.*')};
     permissionDb.find(searchData , function(a){
         res.useSend(a);
     });
@@ -16,6 +17,7 @@ router.post('/add', function(req, res, next) {
         name:req.body.name,
         code:req.body.code,
         menuCode:req.body.menuCode,
+        status:1,
     } , function(a){
         if(a.code === 0)useData.clearData(type,'permissionList');
         res.useSend(a);
@@ -30,8 +32,24 @@ router.post('/update', function(req, res, next) {
         code:req.body.code,
         menuCode:req.body.menuCode,
     } , function(a){
+        if(a.code === 0)useData.clearData(req.body.type || 0,'permissionList');
         res.useSend(a);
     });
+});
+
+router.post('/change', function(req, res, next) {
+    permissionDb.findOne({
+        _id:req.body._id
+    } , function(a){
+        permissionDb.update({
+            _id:req.body._id
+        } ,{
+            status:1 - a.data.status
+        }, function(b){
+            if(b.code === 0)useData.clearData(a.data.type,'permissionList');
+            res.useSend(b);
+        });
+    })
 });
 router.post('/delete', function(req, res, next) {
     permissionDb.del({
@@ -43,6 +61,7 @@ router.post('/delete', function(req, res, next) {
 router.get('/menuList', function(req, res, next) {
     var searchData = {};
     if(req.query.parentCode)searchData.parentCode = req.query.parentCode;
+    if(req.query.name)searchData.name = {$regex:new RegExp('.*'+req.query.name+'.*')};
     permissionMenuDb.find(searchData , function(a){
         res.useSend(a);
     });
@@ -56,6 +75,7 @@ router.post('/menuAdd', function(req, res, next) {
         code:req.body.code,
         parentCode:req.body.parentCode,
         isAdmin:true,
+        status:1,
     } , function(a){
         if(a.code === 0)useData.clearData(type,'menuList');
         res.useSend(a);
@@ -71,15 +91,23 @@ router.post('/menuUpdate', function(req, res, next) {
         code:req.body.code,
         parentCode:req.body.parentCode,
     } , function(a){
+        if(a.code === 0)useData.clearData(req.body.type || 0,'menuList');
         res.useSend(a);
     });
 });
-router.post('/menuDelete', function(req, res, next) {
-    permissionMenuDb.del({
+router.post('/menuChange', function(req, res, next) {
+    permissionMenuDb.findOne({
         _id:req.body._id
     } , function(a){
-        res.useSend(a);
-    });
+        permissionMenuDb.update({
+            _id:req.body._id
+        } ,{
+            status:1 - a.data.status
+        }, function(b){
+            if(b.code === 0)useData.clearData(a.data.type,'menuList');
+            res.useSend(b);
+        });
+    })
 });
 exports.router = router;
 exports.__path = '/server/admin/permission';

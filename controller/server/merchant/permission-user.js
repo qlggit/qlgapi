@@ -4,16 +4,26 @@ var roleDb = useMongo().create('permissionRelation');
 var operatorDb = useMongo().create('operator');
 var md5 = require('md5');
 router.get('/user', function(req, res, next) {
-    operatorDb.find({
+    var searchData = {
         company:req.query.company,
-    },function (a) {
+    };
+    if(req.query.name)searchData.name = {$regex:new RegExp('.*'+req.query.name+'.*')};
+    operatorDb.find(searchData,function (a) {
         res.send(a);
     });
 });
 router.get('/userInfo', function(req, res, next) {
-    operatorDb.findOne({
-        username:req.query.username,
-    },function (a) {
+    var findData = {};
+    if(req.query.username){
+        findData.username = req.query.username;
+    }
+    if(req.query.uid){
+        findData.uid = req.query.uid;
+    }
+    if(req.query._id){
+        findData._id = req.query._id;
+    }
+    operatorDb.findOne(findData,function (a) {
         res.send(a);
     });
 });

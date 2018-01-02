@@ -8,6 +8,7 @@ module.exports = {
     data:require('./use-data'),
     permission:require('./use-permission'),
     multer:require('./use-multer'),
+    mysql:require('./use-mysql'),
     init:function(app , call){
         //捕获异步产生的异常
         app.use(this.domain);
@@ -49,7 +50,15 @@ module.exports = {
         //URL对象管理
         global.useUrl = require('./url.js');
         global.useWs = require('./use-ws');
-
+        global.useWebot =  require('./webot');
+        global.useMysql =  this.mysql;
+        global.useSql =  require('./use-sql');
+        var wechatOptions = useConfig.get('wechatOptions');
+        for(var key in wechatOptions){
+            var o = wechatOptions[key];
+            o.channel = key;
+            if(o.redirect_message)useWebot.make(app , o);
+        }
         //初始化
         for(var i in this){
             if(this[i].init)this[i].init();

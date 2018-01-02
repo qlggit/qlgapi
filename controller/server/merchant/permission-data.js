@@ -39,11 +39,12 @@ router.get('/data', function(req, res, next) {
             return new Promise(function(rev , rej){
                 var searchData = {};
                 searchData.type = 1;
+                searchData.status = 1;
                 useData.getMenuList(searchData,function(a){
                     console.log(a);
                     sendData.menuList = a;
                     if(userInfo.type > 49){
-                        useData.getPermissionList({type:1},function(a){
+                        useData.getPermissionList({type:1,status:1},function(a){
                             sendData.permissionCode = a.map(function(b){return b.code});
                             rev();
                         })

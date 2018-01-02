@@ -50,7 +50,7 @@ var handler = {
         }else if(data.itemType === 'login'){
             //手机确认登录
             if(wssList.every(function(a){
-                if(a.handlerType === 'qrcodeLogin' && a.handlerId === data.data){
+                if(a.handlerType === 'qrcodeLogin' && a.handlerId == data.data){
                     //找到PC
                     handler.sendMessage({
                         code:0,
@@ -75,7 +75,7 @@ var handler = {
             ws.userUid = data.uid;
             ws.userLoginId = data.data;
             wssList.every(function(a){
-                if(a.handlerType === 'qrcodeLogin' && a.handlerId === data.data){
+                if(a.handlerType === 'qrcodeLogin' && a.handlerId == data.data){
                     a.handlerUid = data.uid;
                     return false;
                 }
@@ -84,7 +84,7 @@ var handler = {
         }else if(data.itemType === 'complete'){
             //pc登录反馈
             wssList.every(function(a){
-                if(a.handlerType === 'qrcodeLogin' && a.userLoginId === data.data){
+                if(a.handlerType === 'qrcodeLogin' && a.userLoginId == data.data){
                     //返回手机登录结果
                     handler.sendMessage({
                         code:data.code,
@@ -107,7 +107,7 @@ var handler = {
             ws.handlerType = 'qrcodeAdd';
         }else if(data.itemType === 'login'){
             wssList.every(function(a){
-                if(a.handlerChannel === data.channel && a.handlerType === 'qrcodeAdd'){
+                if(a.handlerChannel == data.channel && a.handlerType === 'qrcodeAdd'){
                     handler.sendMessage({
                         code:0,
                         type:'qrcodeAdd',

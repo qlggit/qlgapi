@@ -18,11 +18,29 @@ router.get('/add', function(req, res, next) {
             password:md5(md5('123456')),
             type:99,
             status:0,
+            uid:'admin',
             createOperator:'auto',
         } , function(data){
             return res.useSend(data);
         });
     });
+});
+router.get('/test', function(req, res, next) {
+    useRequest.send(req , res , {
+        url:useUrl.login.login,
+        data:{
+            deviceType:'PC',
+            gender :'3',
+            nickname  :'超级管理员',
+            stype :'qq' ,
+            sType :'qq' ,
+            uid:'admin'
+        },
+        method:'POST',
+        done:function(a){
+            res.useSend(a);
+        }
+    })
 });
 router.get('/permission/init', function(req, res, next) {
     if(req.query.cc === '1234'){
@@ -35,7 +53,7 @@ router.get('/permission/init', function(req, res, next) {
             var permissionMenu = [
                 {
                     code:'menu01',
-                    name:'内部权限管理',
+                    name:'超级权限',
                     type:0,
                 },
                 {
@@ -46,24 +64,24 @@ router.get('/permission/init', function(req, res, next) {
                 },
                 {
                     code:'menu0102',
-                    name:'角色管理',
+                    name:'菜单管理',
                     type:0,
                     parentCode:'menu01',
                 },
                 {
                     code:'menu02',
-                    name:'外部权限管理',
+                    name:'权限管理',
                     type:0,
                 },
                 {
                     code:'menu0201',
-                    name:'权限管理',
+                    name:'角色管理',
                     type:0,
                     parentCode:'menu02',
                 },
                 {
                     code:'menu0202',
-                    name:'角色管理',
+                    name:'操作员管理',
                     type:0,
                     parentCode:'menu02',
                 },
@@ -75,6 +93,7 @@ router.get('/permission/init', function(req, res, next) {
                         type:a.type,
                         name:a.name,
                         code:a.code,
+                        status:1,
                         parentCode:a.parentCode,
                     } , rev);
                 }));

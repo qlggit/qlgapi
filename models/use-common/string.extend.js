@@ -212,5 +212,25 @@ module.exports = function(obj){
             }
             return hex_sha1(__);
         }
+        obj.isSqlKey = function(str){
+            return str.indexOf('_')>=0;
+        };
+        obj.turnSqlKey = function(str){
+            return str.replace(/[^_]+/g,function(a,i){
+                return i?a.replace(/./g,function(b,j){return j?b:b.toUpperCase()}):a;
+            }).replace(/_/g,'');
+        };
+        obj.turnSqlUpdateKey = function(str){
+            return str.replace(/[A-Z]+/g,function(a){
+                return '_'+a.toLowerCase();
+            });
+        };
+        obj.turnQueryValue = function(str){
+            if(!str || typeof  str !== 'string')return str;
+            return str.replace(/['"`]/g,function(a){
+                return '\\'+a;
+            });
+        };
     }
+
 };

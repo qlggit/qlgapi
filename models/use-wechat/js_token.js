@@ -2,7 +2,7 @@
 var ACCESS_TOKEN = {};
 module.exports = function(channel  , call){
     var wechatData = useConfig.get('wechatOptions')[channel];
-    var token = ACCESS_TOKEN[channel];
+    var token = ACCESS_TOKEN[wechatData.tokenChannel || channel];
     //10秒内为过期则不需要刷新
     if(token && token.expires_in - 10 > (new Date - token.createTime)/1000){
         call && call(token);

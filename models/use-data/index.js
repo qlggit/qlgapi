@@ -5,9 +5,9 @@ var channelConfigDb;
 var adminData = {};
 var otherData = {};
 module.exports = {
-    addMerchant:function(merchantId , username,merchantName,call){
+    addMerchant:function(data,call){
         channelConfigDb.findOne({
-            company:merchantId
+            company:data.merchantId
         } , function(a){
             if(a.data){
                 call({
@@ -16,33 +16,30 @@ module.exports = {
                 })
             }else{
                 channelConfigDb.save({
-                    company:merchantId
+                    company:data.merchantId
                 },function(a){
-                    operatorDb.findOne({
-                        company:merchantId,
-                        type:99
-                    } , function(a){
-                        var pwd = useCommon.stringRandom(6);
-                        username = username || ('admin-'+merchantId);
-                        operatorDb.save({
-                            company:merchantId,
-                            companyName:merchantName,
-                            username:username,
-                            nickname:'系统管理员',
-                            password:md5(md5(pwd)),
-                            type:99,
-                            status:0,
-                            createOperator:'auto',
-                        } , function(data){
-                            if(data.code === 0){
-                                console.log('create merchant');
-                                console.log('username:--> ' + username);
-                                console.log('password:--> ' + pwd);
-                                data.password = pwd;
-                                data.username = username;
-                            }
-                            call(data);
-                        });
+                    var pwd = '123456' || useCommon.stringRandom(6);
+                    var username = data.username || ('admin-'+data.merchantId);
+                    operatorDb.save({
+                        company:data.merchantId,
+                        companyName:data.merchantName,
+                        username:username,
+                        nickname:'系统管理员',
+                        uid:data.uid,
+                        userId:data.userId,
+                        password:md5(md5(pwd)),
+                        type:99,
+                        status:0,
+                        createOperator:'auto',
+                    } , function(data){
+                        if(data.code === 0){
+                            console.log('create merchant');
+                            console.log('username:--> ' + username);
+                            console.log('password:--> ' + pwd);
+                            data.password = pwd;
+                            data.username = username;
+                        }
+                        call(data);
                     });
                 });
             }
@@ -87,7 +84,7 @@ module.exports = {
             if(autoData.menuList){
                 if(call)call(autoData.menuList);
             }else{
-                permissionMenuDb.find({type:findData.type},function(a){
+                permissionMenuDb.find(findData,function(a){
                     autoData.menuList = a.data;
                     if(call)call(autoData.menuList);
                 });
@@ -99,7 +96,7 @@ module.exports = {
         if(autoData.permissionList){
             if(call)call(autoData.permissionList);
         }else{
-            permissionDb.find(autoData,function(a){
+            permissionDb.find(findData,function(a){
                 autoData.permissionList = a.data;
                 if(call)call(autoData.permissionList);
             });
@@ -107,10 +104,11 @@ module.exports = {
 
     },
     clearData:function(type , key){
-        var autoData = type === 0?adminData:otherData;
+        var autoData = type - 0 === 0?adminData:otherData;
         delete autoData[key];
     },
     init:function(){
+        require('./add')(this);
         mongo = useMongo();
         permissionRelationDb = mongo.create('permissionRelation');
         permissionMenuDb = mongo.create('permissionMenu');

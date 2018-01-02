@@ -12,27 +12,36 @@ module.exports = {
         return multer({
             storage: multer.diskStorage({
                 destination: function (req, file, cb) {
-                    console.log('destination');
-                    console.log(file);
                     cb(null, rootPath);
 
                 },
                 filename: function (req, file, cb) {
-                    console.log('filename');
-                    console.log(file);
                     var filename = options.filename || file.originalname;
+                    console.log('filename --- >' + filename);
                     filename = uuid.v1() + (Path.extname(filename) || req.body.extname || Path.extname(file.originalname));
-                    console.log(filename);
                     cb(null, filename);
                 }
             })
-        }).single(options.name || 'file');
+        }).single(options.name || 'filename');
+    },
+    array:function(options){
+        options = options || {};
+        return multer({
+            storage: multer.diskStorage({
+                destination: function (req, file, cb) {
+                    cb(null, rootPath);
+
+                },
+                filename: function (req, file, cb) {
+                    var filename = options.filename || file.originalname;
+                    filename = uuid.v1() + (Path.extname(filename) || req.body.extname || Path.extname(file.originalname));
+                    cb(null, filename);
+                }
+            })
+        }).array(options.name || 'filename' , 10);
     },
     init:function(){
         rootPath = Path.join(__ROOT__ , publicDir , 'upload');
-        console.log('rootPath');
-        console.log(rootPath);
-        console.log(rootPath.toString());
         fileRender.makeDir(Path.join(rootPath , 'xx.xx'));
     }
 };

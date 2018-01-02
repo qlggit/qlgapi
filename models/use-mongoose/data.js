@@ -37,6 +37,7 @@ module.exports = {
         username:String,
         nickname:String,
         uid:String,
+        userId:String,
         password:String,
         type:Number,
         status:Number,//0修改密码 1正常 2锁定
@@ -48,6 +49,7 @@ module.exports = {
     permission:{//单个权限
         type:Number,//0内部 1商户
         name:String,
+        status:Number,
         code:String,
         menuCode:String,
         createTime:Date,
@@ -65,6 +67,7 @@ module.exports = {
     },
     permissionMenu:{//菜单权限
         type:Number,//0内部 1商户
+        status:Number,
         name:String,
         code:String,
         parentCode:String,
@@ -91,6 +94,16 @@ module.exports = {
         merchantId:String,
         chatRoomId:String,
         chatRoomName:String,
+        createTime:Date,
+        updateTime:Date,
+    },
+    appVersion:{
+        appChannel:String,
+        innerVersion:Number,
+        outerVersion:String,
+        link:String,
+        remark:String,
+        appStatus:String,
         createTime:Date,
         updateTime:Date,
     },

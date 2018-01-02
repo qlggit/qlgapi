@@ -4,13 +4,8 @@
   "author": "wy",
   "private": true,
   "scripts": {
-    "dev": "node build/dev-server.js",
-    "start": "node build/dev-server.js",
-    "build": "node build/build.js",
-    "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
-    "e2e": "node test/e2e/runner.js",
-    "test": "npm run unit && npm run e2e",
-    "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs"
+    "start": "node app.js",
+    "pack": "node archive.js"
   },
   "dependencies": {
     "@alicloud/sms-sdk": "^1.0.2",
@@ -22,6 +17,7 @@
     "ejs": "~2.3.3",
     "express": "~4.13.1",
     "express-session": "^1.13.0",
+    "express-xml-parser": "^1.0.0",
     "log4js": "^0.6.38",
     "md5": "^2.1.0",
     "merge-descriptors": "^1.0.1",
@@ -31,6 +27,7 @@
     "qiniu": "^7.1.1",
     "request": "^2.72.0",
     "uuid": "^2.0.2",
+    "weixin-robot": "^0.5.10",
     "ws": "^3.3.2"
   },
   "devDependencies": {

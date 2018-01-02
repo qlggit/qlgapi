@@ -1,5 +1,6 @@
 var express = require('express');
 var qiniu = require('qiniu');
+var fs = require('fs');
 var router = express.Router();
 var options = {
     scope: useConfig.get('qiniuImgShowPath'),
@@ -14,7 +15,7 @@ router.get('/down', function(req, res, next) {
 });
 var uuid = require('uuid');
 var urlPath = useConfig.get('qiniuImgShowUrl');
-router.post('/upload', function(req, res, next) {
+router.post('/upload/old', function(req, res, next) {
     var boundary = req.headers['content-type'].replace(/[\w\W]*boundary\=/,'');
     var chunks = [];
     var size = 0;
@@ -48,7 +49,7 @@ function getFileData(buffer , boundary){
                 oneFile.ContentDisposition = oneStr;
                 var filename = oneStr.match(/filename=".*"/g);
                 if(filename){
-                    oneFile.originalName = filename[0].split('"')[1];
+                    oneFile.originalName = filename[0].split('"')[1].replace(/[^\w\-\.]/,'');
                     oneFile.filename = [useCommon.parseDate(new Date , 'Ymd'),uuid.v1(),oneFile.originalName].join('-') ;
                     startIndex = -1;
                 }
@@ -103,7 +104,30 @@ function putOne(fileData , call){
         }:null , respBody)
     });
 }
-router.post('/uploads', function(req, res, next) {
+function putMulterOne(originalname ,fileData, call){
+    var putPolicy = new qiniu.rs.PutPolicy(options);
+    var mac = new qiniu.auth.digest.Mac(accessKey, secretKey);
+    var uploadToken = putPolicy.uploadToken(mac);
+    var putExtra = new qiniu.form_up.PutExtra();
+    var formUploader = new qiniu.form_up.FormUploader(config);
+    formUploader.putFile(uploadToken , originalname , fileData.path , putExtra, function(respErr,
+                                                                                      respBody, respInfo) {
+        respBody = respBody || {};
+        console.log('file upload');
+        console.log(respBody);
+        call(respInfo.statusCode === 200?{
+            err:respErr,
+            statusCode:200,
+            hash:respBody.hash,
+            originalName:fileData.originalname,
+            fileType:fileData.fileType,
+            key:respBody.key,
+            filePath:urlPath + respBody.key
+        }:null , respBody);
+        fs.unlink(fileData.path);
+    });
+}
+router.post('/uploads/old', function(req, res, next) {
     var boundary = req.headers['content-type'].replace(/[\w\W]*boundary\=/,'');
     var chunks = [];
     var size = 0;
@@ -139,8 +163,47 @@ router.post('/uploads', function(req, res, next) {
         });
     });
 });
+router.post('/uploads',useMulter.array(), function(req, res, next) {
+    var all = [];
+    if(!req.files.length){
+        return res.send({code:1,message:'没有文件'});
+    }
+    req.files.forEach(function(a){
+        all.push(new Promise(function(rev , rej){
+            var originalname = Date.now() + '-' + a.filename;
+            putMulterOne(originalname , a , function(d , e){
+                if(d){
+                    rev(d)
+                }else{
+                    rej(e);
+                }
+            })
+        })) ;
+    });
+    Promise.all(all).then(function(values){
+        res.send({
+            code:"10000",
+            data:values
+        })
+    }).catch(function(e){
+        res.send({
+            code:"1",
+            data:e
+        })
+    });
+});
 router.get('/test', function(req, res, next) {
     res.render('file');
+});
+router.post('/upload',useMulter.file(), function(req, res, next) {
+    console.log(req.file);
+    var originalname = Date.now() + '-' + req.file.filename;
+    putMulterOne(originalname , req.file , function(d , e){
+        res.send({
+            code:d?"10000":"1",
+            data:d || e
+        })
+    })
 });
 exports.router = router;
 exports.__path = '/file';

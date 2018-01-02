@@ -40,7 +40,7 @@ function checkSuccess(data , dbData , call){
     })
 }
 function checkFail(sendData , dbData , call){
-    console.log('checkFail');
+    console.log('checkFail --> ' + sendData.status);
     useMessage.send(sendData);
     call({
         code:1,
@@ -105,6 +105,7 @@ module.exports = {
             } , function(a){
                 console.log(a);
                 var code = useCommon.stringRandom(6);
+                console.log('验证码--- > ' + code + ' --- > ' + data.phone);
                 if(a.data){
                     if(a.data >= smsMaxCount){
                         sendData.status = 'maxCount';
@@ -136,6 +137,7 @@ module.exports = {
         }
     },
     check:function(data , call){
+        console.log(data);
         smsDb.find({
             phone:data.phone,
             sendType:data.sendType,
@@ -157,6 +159,18 @@ module.exports = {
                 return false;
             }
             if(dbData){
+                //超出次数验证
+                if(dbData.checkCount >= smsMaxCheckCount){
+                    checkData.status = 'maxCount';
+                    checkFail(checkData ,dbData, call);
+                    return false;
+                }
+                //超出时限
+                if(Date.now() - dbData.createTime > expires){
+                    checkData.status = 'timeout';
+                    checkFail(checkData ,dbData, call);
+                    return false;
+                }
                 //已经验证过 类似于没有
                 if(dbData.check){
                     checkData.status = 'again';
@@ -164,18 +178,6 @@ module.exports = {
                     return false;
                 }
                 if(dbData.code === data.code){
-                    //超出次数验证
-                    if(dbData.checkCount >= smsMaxCheckCount){
-                        checkData.status = 'maxCount';
-                        checkFail(checkData ,dbData, call);
-                        return false;
-                    }
-                    //超出时限
-                    if(Date.now() - dbData.createTime > expires){
-                        checkData.status = 'timeout';
-                        checkFail(checkData ,dbData, call);
-                        return false;
-                    }
                     checkSuccess(data ,dbData, call);
                     return false;
                 }
@@ -183,8 +185,11 @@ module.exports = {
                 checkData.status = 'error';
                 checkFail(checkData , dbData ,call);
                 return false;
+            }else {
+                checkData.status = 'null';
+                checkFail(checkData , null ,call);
+                return false;
             }
-            checkFail(checkData ,null , call);
         },{},{
             sort:{
                 updateTime:-1

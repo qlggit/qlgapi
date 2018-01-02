@@ -37,10 +37,11 @@ router.get('/data', function(req, res, next) {
         }).then(function(){
             return new Promise(function(rev , rej){
                 var searchData = {};
-                if(userInfo.type > 49)searchData.isAdmin = true;
-                else{
-                    searchData.type = 0;
-                }
+                searchData.type = 0;
+                // if(userInfo.type > 49)searchData.isAdmin = true;
+                // else{
+                //     searchData.type = 0;
+                // }
                 useData.getMenuList(searchData,function(a){
                     sendData.menuList = a;
                     if(userInfo.type > 49){

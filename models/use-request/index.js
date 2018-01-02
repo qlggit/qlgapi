@@ -37,7 +37,7 @@ module.exports = {
         console.log('request start : ');
         console.log(__);
         request(__ , function(err , response , body){
-            if(response && response.statusCode == 401){
+            if(res && response && response.statusCode == 401){
                 res.status(401).end();
                 return false;
             }

@@ -4,9 +4,11 @@ var roleDb = useMongo().create('permissionRelation');
 var operatorDb = useMongo().create('operator');
 var md5 = require('md5');
 router.get('/role', function(req, res, next) {
-    useData.getRole({
+    var searchData = {
         company:req.query.company,
-    },function (a) {
+    };
+    if(req.query.name)searchData.name = {$regex:new RegExp('.*'+req.query.name+'.*')};
+    useData.getRole(searchData,function (a) {
         res.send(a);
     })
 });

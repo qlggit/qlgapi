@@ -1,8 +1,8 @@
 //admin 1234yqs_admin
 module.exports = {
-    "redirect_uri":'http://47.100.20.78:3002',
-    //qiniuImgShowUrl:'http://ozczd6usr.bkt.clouddn.com/',
-    //qiniuImgShowPath:'image',
+    qiniuImgShowUrl:'http://ozczd6usr.bkt.clouddn.com/',
+    qiniuImgShowPath:'image',
+    apiUrl:'http://172.19.56.132:4200',
     "log4js":{
         "customBaseDir" :"../logs/h5api/",
         "customDefaultAtt" :{
@@ -25,6 +25,12 @@ module.exports = {
         host:'127.0.0.1',
         port:'27017',
         dbname:'h5api'
-    }
+    },
+    mysqlOptions:{
+        host:'rm-uf6f0pnlca8085p8zo.mysql.rds.aliyuncs.com',
+        user:'root',
+        password :'CQyuke000!',
+        database :'yukeh5'
+    },
 };
 

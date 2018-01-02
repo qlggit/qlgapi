@@ -9,4 +9,7 @@ module.exports = {
         userToken:rongcloudUrl + '/user/getToken',
         createChatRoom:rongcloudUrl + '/chatroom/create.json',
     },
+    login:{
+        login:apiUrl + '/api/user/v_1/login',
+    },
 };

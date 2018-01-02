@@ -10,8 +10,8 @@ global.__ROOT__ = __dirname;
 global.usePackage = require('./package.json');
 global.useEnv = process.env.NODE_ENV;
 console.log('env  '+useEnv);
-global.publicDir = useEnv?'public':'build';
-global.viewDir = useEnv?'views':'build/views';
+global.publicDir = useEnv?'views':'views';
+global.viewDir = useEnv?'views':'views';
 //静态文件目录
 app.use(express.static(path.join(__dirname, publicDir)));
 
@@ -22,13 +22,7 @@ app.use(function(req,res,next){
 		console.log('file url 404');
         return res.status(404).end();
 	}
-  var remoteAddress = req.headers['x-forwarded-for'] ||
-    req.headers['x-real-ip'] ||
-    req.connection.remoteAddress ||
-    req.socket.remoteAddress ||
-    req.connection.socket.remoteAddress;
-  remoteAddress = remoteAddress.replace(/\:+ffff\:/,'');
-  req.remoteAddress = remoteAddress;
+
 	var startTime = new Date();
 	var calResponseTime = function () {
 		var deltaTime = new Date() - startTime;
@@ -46,6 +40,13 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 
 app.use(function(req , res , next){
+    var remoteAddress = req.query.remoteAddress || req.body.remoteAddress || req.headers['x-forwarded-for'] ||
+        req.headers['x-real-ip'] ||
+        req.connection.remoteAddress ||
+        req.socket.remoteAddress ||
+        req.connection.socket.remoteAddress;
+    remoteAddress = remoteAddress.replace(/\:+ffff\:/,'');
+    req.remoteAddress = remoteAddress;
 	req.__xhr = req.xhr || req.body.__isAjax || req.query.__isAjax;
 	next();
 });

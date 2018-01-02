@@ -6,7 +6,6 @@ module.exports = {
 
     alidayuAppId:'LTAI0ToowjXIqOJk',
     alidayuAppKey:'IBAoSwR0N6OYA16DfEnqosaJSkmNwN',
-    alidayuUrl:'http://192.168.1.245:8080',
     smsExpires:1800,//短信有效期
     smsMaxCount:5,
     smsMaxCheckCount:5,
@@ -18,7 +17,9 @@ module.exports = {
     qiniuImgShowUrl:'http://p0bkr7y6k.bkt.clouddn.com/',
     qiniuImgShowPath:'test',
 
-    "redirect_uri":'http://h5.yqsapp.com',
+    "redirect_uri":'http://h5.yukew.com',
+    "apiUrl":'http://192.168.1.122:8012',
+    autoWechatChannel:'acttest',
     "log4js":{
         "customBaseDir" :"/logs/",
         "customDefaultAtt" :{
@@ -38,7 +39,7 @@ module.exports = {
         "levels":{ "logDebug": "DEBUG", "logInfo": "DEBUG", "logWarn": "DEBUG", "logErr": "DEBUG"}
     },
     dbOptions:{
-        host:'192.168.1.245',
+        host:'120.27.213.0',
         port:'27017',
         dbname:'h5api'
     },
@@ -62,7 +63,46 @@ module.exports = {
             "appSecret":"4afb85b4c4c3505efe20bb379da7900d",
             "redirect_uri":"http://wx.yukew.com",
             "redirect_path":"/wechat/entrance",
+            "redirect_message":'http://h5.yukew.com/wechat/message',
             "token":"f4da9eb443e5595cb889a2ff8ec5de8f"
+        },
+        wxtest:{
+            "appId":"wxeb6eb417838ef115",
+            "appSecret":"d4624c36b6795d1d99dcf0547af5443d",
+            "redirect_uri":"http://wx.yukew.com",
+            "redirect_path":"/wechat/entrance",
+            "redirect_message":'http://h5.yukew.com/wechat/message',
+            "token":"f4da9eb443e5595cb889a2ff8ec5de8f"
+        },
+        acttest:{
+            "appId":"wxeb6eb417838ef115",
+            "appSecret":"d4624c36b6795d1d99dcf0547af5443d",
+            "redirect_uri":"http://act.yukew.com",
+            "redirect_path":"/wechat/entrance",
+            "token":"f4da9eb443e5595cb889a2ff8ec5de8f"
+        },
+        wxact:{
+            "appId":"wxd8524c4b547049f2",
+            "appSecret":"4afb85b4c4c3505efe20bb379da7900d",
+            "redirect_uri":"http://act.yukew.com",
+            "redirect_path":"/wechat/entrance",
+            tokenChannel:'wxmember',
+            "token":"f4da9eb443e5595cb889a2ff8ec5de8f"
+        },
+        wxh5:{
+            "appId":"wxd8524c4b547049f2",
+            "appSecret":"4afb85b4c4c3505efe20bb379da7900d",
+            tokenChannel:'wxmember',
+            "redirect_uri":"http://wx.yukew.com",
+            "redirect_path":"/wechat/entrance/h5",
+            "token":"f4da9eb443e5595cb889a2ff8ec5de8f"
+        },
+        wxyqs:{
+            "appId":"wxd8524c4b547049f2",
+            tokenChannel:'wxmember',
+            "appSecret":"4afb85b4c4c3505efe20bb379da7900d",
+            "redirect_uri":"http://cp.yukew.com",
+            "redirect_path":"/wechat/entrance"
         },
         smspread:{
             "appId":"wx00ba028fdf8fcc3d",
@@ -72,6 +112,18 @@ module.exports = {
             "appId":"wxa35e894678078820",
             "appSecret":"906f0dd99084526ddea1387efcf133d0",
         },
-    }
+    },
+    // mysqlOptions:{
+    //     host:'127.0.0.1',
+    //     user:'root',
+    //     password :'mysqltest',
+    //     database :'yukew'
+    // },
+    mysqlOptions:{
+        host:'rm-uf6f0pnlca8085p8zo.mysql.rds.aliyuncs.com',
+        user:'root',
+        password :'CQyuke000!',
+        database :'yukeh5'
+    },
 };
 
