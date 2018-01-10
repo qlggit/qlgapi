@@ -19,7 +19,7 @@ module.exports = {
 
     "redirect_uri":'http://h5.yukew.com',
     "apiUrl":'http://192.168.1.122:8012',
-    autoWechatChannel:'acttest',
+    autoWechatChannel:'wxmember',
     "log4js":{
         "customBaseDir" :"/logs/",
         "customDefaultAtt" :{

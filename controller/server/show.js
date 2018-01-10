@@ -4,6 +4,7 @@ router.get('/video', function(req, res, next) {
     res.render('show/video',{
         title:req.query.title,
         src:req.query.src,
+        link:req.query.link,
     });
 });
 exports.router = router;
