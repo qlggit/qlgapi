@@ -41,7 +41,7 @@ module.exports = {
         global.usePageSize = 20;
         global.useWechat =  require('./use-wechat');
         global.useCache = require('./use-cache');
-        global.useSms = require('./use-sms');
+        // global.useSms = require('./use-sms');
         global.useMessage = require('./use-message');
 
         global.useBuffer = require('./buffer');

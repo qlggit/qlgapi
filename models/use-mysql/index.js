@@ -30,7 +30,7 @@ var mysql = {
                 this.connect();
             }
         }else{
-
+            console.log('connect success');
         }
     },
     query:function(sql , call){
@@ -40,9 +40,13 @@ var mysql = {
             if(err){
                 console.error(err);
                 //超时
-                if(err.code === 'PROTOCOL_ENQUEUE_AFTER_FATAL_ERROR'){
+                if(err.code === 'PROTOCOL_ENQUEUE_AFTER_FATAL_ERROR' || err.code === 'ETIMEDOUT'){
                     that.connect(function(err){
-                        that.query(sql,call);
+                        if(!err){
+                            that.query(sql,call);
+                        }else{
+                            call && call(err);
+                        }
                     });
                     return false;
                 }
@@ -50,6 +54,7 @@ var mysql = {
                 if(err.code === 'ECONNRESET' || err.code === 'ECONNREFUSED'){
                     that.connect();
                 }
+                call && call(err);
             }else{
                 that.turnKeyData(rows);
             }

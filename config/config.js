@@ -89,12 +89,12 @@ module.exports = {
             tokenChannel:'wxmember',
             "token":"f4da9eb443e5595cb889a2ff8ec5de8f"
         },
-        wxh5:{
+        wxsh:{
             "appId":"wxd8524c4b547049f2",
             "appSecret":"4afb85b4c4c3505efe20bb379da7900d",
             tokenChannel:'wxmember',
-            "redirect_uri":"http://wx.yukew.com",
-            "redirect_path":"/wechat/entrance/h5",
+            "redirect_uri":"http://sh.yukew.com",
+            "redirect_path":"/wechat/entrance",
             "token":"f4da9eb443e5595cb889a2ff8ec5de8f"
         },
         wxyqs:{
