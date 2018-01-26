@@ -10,7 +10,7 @@ global.__ROOT__ = __dirname;
 global.usePackage = require('./package.json');
 global.useEnv = process.env.NODE_ENV;
 console.log('env  '+useEnv);
-global.publicDir = useEnv?'views':'views';
+global.publicDir = useEnv?'public':'public';
 global.viewDir = useEnv?'views':'views';
 //静态文件目录
 app.use(express.static(path.join(__dirname, publicDir)));

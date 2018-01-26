@@ -18,7 +18,7 @@ module.exports = {
     qiniuImgShowPath:'test',
 
     "redirect_uri":'http://h5.yukew.com',
-    "apiUrl":'http://192.168.1.122:8012',
+    "apiUrl":'http://192.168.1.105:8012',
     autoWechatChannel:'wxmember',
     "log4js":{
         "customBaseDir" :"/logs/",
